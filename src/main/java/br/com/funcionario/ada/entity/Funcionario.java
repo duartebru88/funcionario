@@ -34,5 +34,5 @@ public class Funcionario {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
-    //commit
+
 }
