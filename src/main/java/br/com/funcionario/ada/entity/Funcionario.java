@@ -29,6 +29,7 @@ public class Funcionario {
 
     @Enumerated(EnumType.STRING)
     private PerfilEnum perfil;
+    //coments
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
