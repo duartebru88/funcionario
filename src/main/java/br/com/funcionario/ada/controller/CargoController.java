@@ -5,19 +5,15 @@ import br.com.funcionario.ada.dto.CargoResponseDto;
 import br.com.funcionario.ada.dto.CargoSaveRequestDto;
 import br.com.funcionario.ada.dto.CargoSaveResponseDto;
 import br.com.funcionario.ada.entity.Cargo;
-import br.com.funcionario.ada.repository.CargoRepository;
 import br.com.funcionario.ada.service.impl.CargoServiceImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,15 +55,18 @@ public class CargoController {
         }
     }
 
-    @PatchMapping("/{idCargo}/{salarioBase}")
-    public ResponseEntity updateSalario(@PathVariable Long idCargo, @PathVariable BigDecimal salarioBase) {
+    @PatchMapping("/{idCargo}")
+    public ResponseEntity updateSalario(@PathVariable Long idCargo, @RequestBody @Valid CargoSaveRequestDto cargoRequest) {
         //update
-        log.info("idCargo: {} salarioBase: {}", idCargo, salarioBase);
+        log.info("idCargo: {}", idCargo);
         Optional<Cargo> cargo = cargoService.findById(idCargo);
-
+        Cargo cargoAtualizado = new Cargo();
         if (cargo.isPresent()) {
-            cargo.get().setSalario_base(salarioBase);
-            cargoService.save(cargo.get());
+            cargoAtualizado.setId(cargo.get().getId());
+            cargoAtualizado.setCargo(cargoRequest.getCargo());
+            cargoAtualizado.setDescricao(cargoRequest.getDescricao());
+            cargoAtualizado.setSalario(cargoRequest.getSalario());
+            cargoService.save(cargoAtualizado);
             return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

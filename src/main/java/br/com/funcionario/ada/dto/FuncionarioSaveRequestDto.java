@@ -1,6 +1,5 @@
 package br.com.funcionario.ada.dto;
 
-import br.com.funcionario.ada.entity.Cargo;
 import br.com.funcionario.ada.entity.Endereco;
 import br.com.funcionario.ada.entity.enums.PerfilEnum;
 import jakarta.validation.constraints.NotBlank;
@@ -18,8 +17,9 @@ public class FuncionarioSaveRequestDto {
     private String nome;
     private String cpf;
     private String email;
+    private String senha;
     private Endereco endereco;
-    private Cargo cargo;
+    private Long cargoId;
     private PerfilEnum perfil;
     private BigDecimal bonusSalarial;
 }
