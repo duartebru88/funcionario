@@ -20,4 +20,5 @@ public class FuncionarioResponseDto {
         private Endereco endereco;
         private Cargo cargo;
         private PerfilEnum perfil;
+        private BigDecimal bonusSalarial;
 }
