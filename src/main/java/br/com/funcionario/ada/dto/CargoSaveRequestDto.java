@@ -12,13 +12,11 @@ import java.math.BigDecimal;
 @Data
 public class CargoSaveRequestDto {
 
-    @NotNull
-    @NotBlank
-    private String descricao;
-
-    @NotNull @DecimalMin(value = "0.1")
-    private BigDecimal salario_base;
-
-    @NotNull
+    @NotNull(message = "{required.validation}")
     private CargoEnum cargo;
+    private String descricao;
+    @NotNull
+    @DecimalMin(value = "0.1")
+    private BigDecimal salario;
+
 }

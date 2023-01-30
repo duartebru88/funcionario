@@ -2,7 +2,6 @@ package br.com.funcionario.ada.service.impl;
 
 import br.com.funcionario.ada.entity.Cargo;
 import br.com.funcionario.ada.repository.CargoRepository;
-import br.com.funcionario.ada.repository.FuncionarioRepository;
 import br.com.funcionario.ada.service.CargoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,13 +21,13 @@ public class CargoServiceImpl implements CargoService {
     }
 
     @Override
-    public Optional<Cargo> findById(Long idCargo) {
-        return cargoRepository.findById(idCargo);
+    public Optional<Cargo> findById(Long cargoId) {
+        return cargoRepository.findById(cargoId);
     }
 
     @Override
-    public void deleteById(Long idCargo) {
-        cargoRepository.deleteById(idCargo);
+    public void deleteById(Long cargoId) {
+        cargoRepository.deleteById(cargoId);
     }
 
     @Override

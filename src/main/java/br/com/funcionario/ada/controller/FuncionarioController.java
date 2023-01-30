@@ -1,7 +1,9 @@
 package br.com.funcionario.ada.controller;
 
 import br.com.funcionario.ada.dto.*;
+import br.com.funcionario.ada.entity.Cargo;
 import br.com.funcionario.ada.entity.Funcionario;
+import br.com.funcionario.ada.service.impl.CargoServiceImpl;
 import br.com.funcionario.ada.service.impl.FuncionarioServiceImpl;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,8 @@ public class FuncionarioController {
 
     @Autowired
     private FuncionarioServiceImpl funcionarioService;
+    @Autowired
+    private CargoServiceImpl cargoService;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -29,9 +33,18 @@ public class FuncionarioController {
     @PostMapping
     public ResponseEntity<FuncionarioSaveResponseDto> save(@RequestBody @Valid FuncionarioSaveRequestDto funcionarioRequest){
 
-        log.info(funcionarioRequest.toString());
-        Funcionario funcionario = modelMapper.map(funcionarioRequest, Funcionario.class);
 
+        log.info(funcionarioRequest.toString());
+        Funcionario funcionario = new Funcionario();
+        funcionario.setNome(funcionarioRequest.getNome());
+        funcionario.setCpf(funcionarioRequest.getCpf());
+        funcionario.setEmail(funcionarioRequest.getCpf());
+        funcionario.setSenha(funcionarioRequest.getCpf());
+        funcionario.setEndereco(funcionarioRequest.getEndereco());
+        Optional<Cargo> cargo = cargoService.findById(funcionarioRequest.getCargoId());
+        funcionario.setCargo(cargo.get());
+        funcionario.setPerfil(funcionarioRequest.getPerfil());
+        funcionario.setBonusSalarial(funcionarioRequest.getBonusSalarial());
         funcionarioService.save(funcionario);
         FuncionarioSaveResponseDto funcionarioResponse = new FuncionarioSaveResponseDto();
         funcionarioResponse.setId(funcionario.getId());
@@ -94,6 +107,16 @@ public class FuncionarioController {
 
     @GetMapping
     public ResponseEntity<List<Funcionario>> findAll() {return ResponseEntity.ok(funcionarioService.findAll());
+    }
+
+
+    @GetMapping("/{idFuncionario}/salario")
+    public String calculaSalario(@PathVariable Long idFuncionario) {
+        Optional<Funcionario> funcionario = funcionarioService.findById(idFuncionario);
+        Optional<Cargo> cargo = cargoService.findById(funcionario.get().getCargo().getId());
+        BigDecimal salario = funcionario.get().getBonusSalarial().add(cargo.get().getSalario());
+
+        return salario.toString();
     }
 
 }

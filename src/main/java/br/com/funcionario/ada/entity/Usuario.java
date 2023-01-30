@@ -4,12 +4,10 @@ import br.com.funcionario.ada.entity.enums.PerfilEnum;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
-
 @Data
 @Entity
-public class Funcionario {
+
+public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,17 +16,12 @@ public class Funcionario {
     private String cpf;
     private String email;
     private String senha;
-    private BigDecimal bonusSalarial;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cargoId", referencedColumnName = "id")
-    private Cargo cargo;
 
     @Enumerated(EnumType.STRING)
     private PerfilEnum perfil;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "enderecoId", referencedColumnName = "id")
+    @JoinColumn(name = "endereco_id", referencedColumnName = "id")
     private Endereco endereco;
 
 }
